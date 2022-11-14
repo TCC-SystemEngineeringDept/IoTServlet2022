@@ -61,8 +61,4 @@ public class IoTServlet2 extends HttpServlet {
 
 }
 
-class Atom{
-	double pitch;
-	double roll;
-}
 
