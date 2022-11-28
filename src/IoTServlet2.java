@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 /**
  * Servlet implementation class IoTServlet
  */
@@ -45,6 +47,11 @@ public class IoTServlet2 extends HttpServlet {
 		String content = request.getReader().readLine();
 		System.out.println(content);
 		
+		Gson gson = new Gson();
+		Content con = gson.fromJson(content, Content.class);
+		
+
+		
 		
 		ServletContext application = this.getServletContext();
 
@@ -54,12 +61,32 @@ public class IoTServlet2 extends HttpServlet {
 		 }
 		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
 		 application.setAttribute("list", list);
-		
+		 
+		 if((con.roll > 140 || con.roll < -140) && (con.pitch > 140 || con.pitch < -140)) {
+			 list.add("GREEN");
+			 application.setAttribute("list", list);
+			 response.getWriter().append("GREEN");
+		 }else if((con.roll > -40 && con.roll < 40) && (con.pitch > -40 && con.pitch < 40)) {
+			 list.add("RED");
+			 application.setAttribute("list", list);
+			 response.getWriter().append("RED");
+		 }else {
+			 list.add("NONE");
+			 application.setAttribute("list", list);
+			 response.getWriter().append("NONE");
+		 }
+		 
 		
 		
 		
 	}
 
 }
+
+class Content{
+	double roll;
+	double pitch;
+}
+
 
 
