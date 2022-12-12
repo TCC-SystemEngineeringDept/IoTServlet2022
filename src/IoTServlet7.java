@@ -66,7 +66,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	 if ((roll >= 100) || (roll<= -160)) {
 		 response.getWriter().append("GREEN");
 				
-		}else if(roll  <= 5) {
+		}else if(roll  <=  5) {
 			response.getWriter().append("RED");
 			
 		}
