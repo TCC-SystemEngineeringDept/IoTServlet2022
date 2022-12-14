@@ -54,11 +54,11 @@ public class IoTServlet2 extends HttpServlet {
 		 if(list == null) {
 			 list = new ArrayList<String>();
 		 }
-         list.add("host["+host+"] user["+user+"] content=["+content+
-                 "] roll=["+result.roll+"] pitch=["+result.pitch+"]");
+		 
+         list.add("host["+host+"] user["+user+"] content=["+content+"] roll=["+result.roll+"] pitch=["+result.pitch+"]");
 		 application.setAttribute("list", list);
 
-			String json = "{\"USER\":\"yoshzawa\",\"MESSAGE\":\"Hello\",\"content\":0.8}";
+			String json = "{\"USER\":\"yoshzawa\",\"MESSAGE\":\"Hello\",\"VALUE\":0.8}";
 			response.getWriter().append("JSON:["+json+"]");
 			Gson gson = new Gson();
 			Result result = gson.fromJson(content, Result.class);
