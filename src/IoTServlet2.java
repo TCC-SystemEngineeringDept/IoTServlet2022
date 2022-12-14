@@ -1,4 +1,4 @@
-
+package src;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class IoTServlet
@@ -52,11 +54,29 @@ public class IoTServlet2 extends HttpServlet {
 		 if(list == null) {
 			 list = new ArrayList<String>();
 		 }
-		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
+         list.add("host["+host+"] user["+user+"] content=["+content+
+                 "] roll=["+result.roll+"] pitch=["+result.pitch+"]");
 		 application.setAttribute("list", list);
+
+			String json = "{\"USER\":\"yoshzawa\",\"MESSAGE\":\"Hello\",\"content\":0.8}";
+			response.getWriter().append("JSON:["+json+"]");
+			Gson gson = new Gson();
+			Result result = gson.fromJson(content, Result.class);
+			response.getWriter().append(" USER:["+result.USER+"]");
+			response.getWriter().append(" MESSAGE:["+result.MESSAGE+"]");
+			response.getWriter().append(" pitch:["+result.pitch+"]");
+			response.getWriter().append(" roll:["+result.roll+"]");
+				
+			}
+
+		class Result{
+			String USER;
+			String MESSAGE;
+			Float roll;
+			Float pitch;
+	}
+			
 		
 		
 		
 	}
-
-}
