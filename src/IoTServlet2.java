@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+
+
 /**
  * Servlet implementation class IoTServlet
  */
@@ -36,27 +40,42 @@ public class IoTServlet2 extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String host = request.getHeader("host");
-		System.out.println("host["+host+"]");
-
-		String user = request.getHeader("user");
-		System.out.println("user["+user+"]");
-
 		String content = request.getReader().readLine();
-		System.out.println(content);
+		Gson gson = new Gson();
+		Result result = gson.fromJson(content,Result.class);
+		float pitch = result.pitch;
+		float roll = result.roll;
+		
+		if((pitch < -175)) {
+			response.getWriter().append("GREEN");
+		}else if(((pitch < 10) && (pitch > -45)) || ((roll < 15)&& (roll >-15))) {
+			response.getWriter().append("RED");
+		}else {
+			response.getWriter().append("NONE");
+		}
 		
 		
-		ServletContext application = this.getServletContext();
+		
+		
+		//ServletContext application = this.getServletContext();
 
-		 ArrayList<String> list = (ArrayList<String>)application.getAttribute("list");
+		 /*ArrayList<String> list = (ArrayList<String>)application.getAttribute("list");
 		 if(list == null) {
 			 list = new ArrayList<String>();
 		 }
 		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
 		 application.setAttribute("list", list);
-		
+		*/
 		
 		
 	}
-
+	
 }
+
+
+
+class Result{
+	float roll;
+	float pitch;
+}
+
