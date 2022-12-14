@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class IoTServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		PrintWriter out = response.getWriter();
@@ -31,11 +31,30 @@ public class IoTServlet2 extends HttpServlet {
 		 for(String s :list) {
 			out.println("<H3>"+s+"</H3>");
 		 }
-		 
+		//ServletContext application = this.getServletContext();
+		//String list =  (String) application.getAttribute("list");
+		
+		 //String json = list;
+		 //Gson gson = new Gson();
+			//Result result = gson.fromJson(json, Result.class);
+			//double roll = result.roll;
+			//out.println(roll);
+			//double roll = -172;
+
+			 //if ((roll >= 100) || (roll<= -160)) {
+					//response.getWriter().append("GREEN");
+					
+				//}else if(roll  >= -1) {
+					//response.getWriter().append("RED");
+					
+				//}else{
+					//response.getWriter().append("NONE");
+					
+				//}
 
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String host = request.getHeader("host");
 		System.out.println("host["+host+"]");
 
@@ -52,11 +71,37 @@ public class IoTServlet2 extends HttpServlet {
 		 if(list == null) {
 			 list = new ArrayList<String>();
 		 }
-		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
-		 application.setAttribute("list", list);
+		 
+		 //list.add("host["+host+"] user["+user+"] content=["+content+"]");
+		 //application.setAttribute("list", list);
 		
+		//String content = request.getReader().readLine();
+		//Gson gson = new Gson();
+		//Result result = gson.fromJson(content, Result.class);//Jsonをインスタンスに 
 		
+		//ServletContext application = this.getServletContext();
+
+		 //ArrayList<String> list = (ArrayList<String>)application.getAttribute("list");
+		 //if(list == null) {
+			// list = new ArrayList<String>();
+		 //}
+		 //application.setAttribute("list", content);
+		 
+		// double roll = result.roll;
+		 
+		 //if ((roll >= 100) || (roll<= -160)) {
+				//response.getWriter().append("GREEN");
+				
+			//}else if((roll  >= -1)||(roll>=100)) {
+				//response.getWriter().append("RED");
+				
+			//}
+			//else{
+				//response.getWriter().append("NONE");
+				
+			//}
+			
+		}
 		
 	}
 
-}
