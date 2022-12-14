@@ -1,3 +1,5 @@
+
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -9,11 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 /**
  * Servlet implementation class IoTServlet
  */
-@WebServlet("/iot2")
-public class IoTServlet2 extends HttpServlet {
+@WebServlet("/iot7")
+public class IoTServlet7 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,7 +46,13 @@ public class IoTServlet2 extends HttpServlet {
 
 		String content = request.getReader().readLine();
 		System.out.println(content);
-		
+	
+		String json = "{\"pitch\":\"177.683\",\"roll\":\"177.683\"}";
+		response.getWriter().append("JSON:["+json+"]");
+		Gson gson = new Gson();
+		Result result = gson.fromJson(json, Result.class);
+		response.getWriter().append("pitch:["+result.pitch+"]");
+		response.getWriter().append("roll:["+result.roll+"]");
 		
 		ServletContext application = this.getServletContext();
 
@@ -50,10 +60,19 @@ public class IoTServlet2 extends HttpServlet {
 		 if(list == null) {
 			 list = new ArrayList<String>();
 		 }
-		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
+		 
+		 list.add("host["+host+"] user["+user+"] content=["+content+"] pitch=["+result.pitch+"] roll=["+result.roll+"]");
+                 
 		 application.setAttribute("list", list);
 		
 		
 		
 	}
+
+
+	class Result{
+		Float pitch;
+		Float roll;
+	}
+		
 }
