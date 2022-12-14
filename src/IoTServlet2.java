@@ -69,7 +69,7 @@ public class IoTServlet2 extends HttpServlet {
                  "] pitch=["+message.pitch+"] roll=["+message.roll+"]");
 		 application.setAttribute("list", list);
 		 
-		 if(p <=50  && r <= 70)  {
+		 if(p <=50  && r <= 70) {
 			 response.getWriter().append("RED");
 		 }else if(p >= 30){
 			 response.getWriter().append("GREEN");
