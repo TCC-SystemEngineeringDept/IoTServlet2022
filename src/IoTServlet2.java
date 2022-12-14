@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 /**
  * Servlet implementation class IoTServlet
  */
@@ -19,11 +21,11 @@ public class IoTServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+		response.getWriter().append("Served at:").append(request.getContextPath());
 		PrintWriter out = response.getWriter();
 		ServletContext application = this.getServletContext();
-		 ArrayList<String> list = (ArrayList<String>)application.getAttribute("list");
+		
+		ArrayList<String> list = (ArrayList<String>)application.getAttribute("list");
 		 if(list==null) {
 			 return;
 		 }
@@ -32,7 +34,25 @@ public class IoTServlet2 extends HttpServlet {
 			out.println("<H3>"+s+"</H3>");
 		 }
 		 
-
+		Result result = (Result) application.getAttribute("Result");
+		if(result.Temp >= 27) {
+			 response.getWriter().append("BLUE");
+		 }else {
+			 if(result.pitch <= -170) {
+				 response.getWriter().append("GREEN");
+			 }else {
+				 if(result.pitch >= -4 || result.pitch <= 4) {
+					 if(result.roll >= -4 || result.roll <= 4) {
+						 response.getWriter().append("RED");
+					 }else {
+						 response.getWriter().append("NONE");
+					 }
+				 }else {
+					 response.getWriter().append("NONE");
+				 }
+			 }
+		 }
+		 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,10 +73,37 @@ public class IoTServlet2 extends HttpServlet {
 			 list = new ArrayList<String>();
 		 }
 		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
+		 String json = content;
+		 Gson gson = new Gson();
+		 Result result = gson.fromJson(json, Result.class);
 		 application.setAttribute("list", list);
-		
-		
+		 application.setAttribute("Result", result);
+		 if(result.Temp >= 27) {
+			 response.getWriter().append("BLUE");
+		 }else {
+			 if(result.pitch <= -170) {
+				 response.getWriter().append("GREEN");
+			 }else {
+				 if(result.pitch >= -4 || result.roll >= -4) {
+					 if(result.pitch <= 4 || result.roll <= 4) {
+						 response.getWriter().append("RED");
+					 }else {
+						 response.getWriter().append("NONE");
+					 }
+				 }else {
+					 response.getWriter().append("NONE");
+				 }
+			 }
+		 }
+		 
 		
 	}
-
+}
+class Result{
+	Float roll;
+	Float pitch;
+	Float Press;
+	Float Temp;
+	Float Humi;
+	String name;
 }
