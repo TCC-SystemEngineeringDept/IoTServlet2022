@@ -53,6 +53,8 @@ public class IoTServlet2 extends HttpServlet {
 			 list = new ArrayList<String>();
 		 }
 		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
+		 response.getWriter().append("GREEN");
+		 response.getWriter().append("RED");
 		 application.setAttribute("list", list);
 		
 		
