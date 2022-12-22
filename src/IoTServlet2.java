@@ -47,7 +47,6 @@ public class IoTServlet2 extends HttpServlet {
 
 		String content = request.getReader().readLine();
 		
-		
 		String json = "{\"pitch\"-0.951:,\"roll\":78.256}";
 		
 		Gson gson = new Gson();
@@ -69,19 +68,21 @@ public class IoTServlet2 extends HttpServlet {
                  "] pitch=["+message.pitch+"] roll=["+message.roll+"]");
 		 application.setAttribute("list", list);
 		 
-		 if(p <=50  && r <= 70) {
-			 response.getWriter().append("RED");
-		 }else if(p >= 30){
-			 response.getWriter().append("GREEN");
-		 }else {
-			 response.getWriter().append("NOME");
+		 if(p < 0) {
+			 p = -p;
 		 }
 		 
-/*		 
-		 response.getWriter().append("GREEN");
-		 response.getWriter().append("RED");
-		 response.getWriter().append("NOME");
-*/
+		 if(r < 00) {
+			 r = -r;
+		 }
+		 
+		 if((p >= 90) || (r >= 90)) {
+			 response.getWriter().append("GREEN");
+		 }else if((p >= 0.1) && (r <=50)){
+			 response.getWriter().append("RED");
+		 }else {
+			 response.getWriter().append("NONE");
+		 }
 	}
 
 	class Result{
