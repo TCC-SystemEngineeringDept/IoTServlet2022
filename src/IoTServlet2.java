@@ -62,7 +62,7 @@ public class IoTServlet2 extends HttpServlet {
 			
 		if(result.roll >= 170) {
 			response.getWriter().append("GREEN");
-		}else if(result.roll <= -170) {
+		}else if(result.roll <= 30) {
 			response.getWriter().append("RED");
 		}else {
 			response.getWriter().append("NONE");
