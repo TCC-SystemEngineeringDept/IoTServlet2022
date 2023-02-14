@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 /**
  * Servlet implementation class IoTServlet
  */
@@ -54,9 +56,23 @@ public class IoTServlet2 extends HttpServlet {
 		 }
 		 list.add("host["+host+"] user["+user+"] content=["+content+"]");
 		 application.setAttribute("list", list);
-		
-		
-		
+		 
+		 Gson gson = new Gson();
+			Content result = gson.fromJson(content, Content.class);
+			
+		if(result.roll >= 170) {
+			response.getWriter().append("GREEN");
+		}else if(result.roll <= 30) {
+			response.getWriter().append("RED");
+		}else {
+			response.getWriter().append("NONE");
+			
+		}
+		 		
 	}
-
 }
+class Content{
+ 	float roll;
+ 	float pitch;
+	 
+ }
