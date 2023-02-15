@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 /**
  * Servlet implementation class IoTServlet
  */
@@ -45,6 +47,9 @@ public class IoTServlet2 extends HttpServlet {
 		String content = request.getReader().readLine();
 		System.out.println(content);
 		
+		Gson gson = new Gson();
+		Content con = gson.fromJson(content, Content.class);
+		
 		
 		ServletContext application = this.getServletContext();
 
@@ -57,6 +62,10 @@ public class IoTServlet2 extends HttpServlet {
 		
 		
 		
+	}
+	class Content{
+		float pitch;
+		float roll;
 	}
 
 }
