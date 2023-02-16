@@ -1,8 +1,6 @@
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,59 +18,70 @@ import com.google.gson.Gson;
 public class IoTServlet7 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 		PrintWriter out = response.getWriter();
 		ServletContext application = this.getServletContext();
-		 ArrayList<String> list = (ArrayList<String>)application.getAttribute("list");
-		 if(list==null) {
-			 return;
-		 }
-
-		 for(String s :list) {
-			out.println("<H3>"+s+"</H3>");
-		 }
+		String list =  (String) application.getAttribute("list");
+		
+		 String json = list;
 		 
-
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String host = request.getHeader("host");
-		System.out.println("host["+host+"]");
-
-		String user = request.getHeader("user");
-		System.out.println("user["+user+"]");
-
-		String content = request.getReader().readLine();
-		System.out.println(content);
+		 Gson gson = new Gson();
+		 
+			Result result = gson.fromJson(json, Result.class);
+			double roll = result.roll;
+			out.println(roll);
+			
+			 if ((roll >= 100) || (roll<= -160)) {
+				 
+					response.getWriter().append("GREEN");
+					
+				}else if(roll  >= -1) {
+					response.getWriter().append("RED");
+					
+				}else{
+					response.getWriter().append("NONE");
+					
+				}
+				
+			}
+		
 	
-		String json = "{\"pitch\":\"177.683\",\"roll\":\"177.683\"}";
-		response.getWriter().append("JSON:["+json+"]");
-		Gson gson = new Gson();
-		Result result = gson.fromJson(json, Result.class);
-		response.getWriter().append("pitch:["+result.pitch+"]");
-		response.getWriter().append("roll:["+result.roll+"]");
-		
-		ServletContext application = this.getServletContext();
+			
+			
 
-		 ArrayList<String> list = (ArrayList<String>)application.getAttribute("list");
-		 if(list == null) {
-			 list = new ArrayList<String>();
-		 }
-		 
-		 list.add("host["+host+"] user["+user+"] content=["+content+"] pitch=["+result.pitch+"] roll=["+result.roll+"]");
-                 
-		 application.setAttribute("list", list);
-		
-		
+
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	String content = request.getReader().readLine();
+	Gson gson = new Gson();
+	Result result = gson.fromJson(content, Result.class);//Jsonをインスタンスに 
+	
+	ServletContext application = this.getServletContext();
+
+	 application.setAttribute("list", content);
+	 
+	 double roll = result.roll;
+	
+	 
+	  
+	 if ((roll >= 100) || (roll<= -160)) {
+		 response.getWriter().append("GREEN");
+				
+		}else if(roll  <= 5) {
+			response.getWriter().append("RED");
+			
+		}
+		else{
+			response.getWriter().append("NONE");
+			
+		}
 		
 	}
 
-
-	class Result{
-		Float pitch;
-		Float roll;
-	}
-		
 }
+
+class Result{
+	double roll;
+	double pitch;
+}
+
