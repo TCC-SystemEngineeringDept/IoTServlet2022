@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class IoTServlet4
  */
-@WebServlet("/iot6")
+@WebServlet("/iot06")
 public class IoTServlet6 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 /**
  * Servlet implementation class IoTServlet3
  */
-@WebServlet("/iot3")
+@WebServlet("/iot03")
 public class IoTServlet3 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
